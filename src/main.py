@@ -1,5 +1,6 @@
 import logging
 from src.chats.chat_regular import go_chat
+from src.core.faiss_db import save_embedding
 from src.core.logger_core import setup_logging
 from src.llm.local_model import LocalModel
 
@@ -9,5 +10,10 @@ logging = logging.getLogger("MainLogger")
 model = LocalModel()
 
 logging.info("Coming to program and go chat func")
+
+
+save_embedding()
+
+
 go_chat(model)
 logging.info("Finish of program")
