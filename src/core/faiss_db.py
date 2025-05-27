@@ -1,11 +1,10 @@
-from typing import List
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 
-# 1. Загружаем эмбеддер (любой)
+
 embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
-# 2. Наши документы (список строк)
+
 texts = [
     "Пиво: Хеникен 4 бутылки 0.5л холодильник - Beer: Heineken 4 bottle 0.5l refrigerator",
     "Пиво: Туборг 6 бутылок 0.5л холодильник - Beer: Tuborg 6 bottle 0.5l refrigerator",
@@ -21,12 +20,18 @@ def save_embedding():
     db.save_local("faiss_index")
 
 
-def get_embedding(prompt: str) -> List:
-    db = FAISS.load_local("faiss_index", embedding_model,
-                          allow_dangerous_deserialization=True)
+# @tool
+def get_embedding(input: str) -> str :
+    """Getting contest from FAISS according incoming request."""
+    try:
+        print("DEBUG INPUTS:", input)
+        db = FAISS.load_local("faiss_index", embedding_model,
+                              allow_dangerous_deserialization=True)
+        query = input
+        results = db.similarity_search(query)
+        final_result = [r.page_content for r in results]
+        return "\n".join(final_result)
+    except Exception as e:
+        print("❌ Error in get_embedding:", e)
+        return "ERROR"
 
-    query = prompt
-    results = db.similarity_search(query)#, k=2)
-
-    final_result = (result.page_content for result in results)
-    return list(final_result)

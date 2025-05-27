@@ -17,5 +17,5 @@ def setup_logging():
 
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
-    logger.handlers = []  # очищаем старые хендлеры, чтобы не было дублирования
+    logger.handlers = []
     logger.addHandler(handler)
