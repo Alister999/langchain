@@ -10,7 +10,7 @@ class LocalModel(LLM):
     endpoint: str = "http://192.168.100.14:8000/completion"
     stop_tokens: Optional[List[str]] = ["<|im_end|>"]
     temperature: float = 0.7
-    n_predict: int = 128
+    n_predict: int = 32 #128
 
     def _call(self):
         pass
