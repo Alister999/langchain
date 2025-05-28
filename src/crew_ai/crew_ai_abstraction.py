@@ -20,7 +20,7 @@ task = Task(
         "Question: {request}"
     ),
     agent=llm_agent,
-    prompt_template= joke_prompt, #bar_prompt,
+    prompt_template= bar_prompt, #joke_prompt,
     expected_output="A concise and accurate answer based strictly on the provided context.",
 )
 

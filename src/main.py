@@ -11,7 +11,7 @@ logging = logging.getLogger("MainLogger")
 logging.info("Coming to program and go chat func")
 
 def main():
-    print("Привет! Задай свой вопрос (введи 'выход' для выхода):")
+    print("Hello! Say your question (введи 'выход' для выхода):")
     start_time = datetime.now()
     while True:
         user_input = input("\n❓ Вопрос: ")

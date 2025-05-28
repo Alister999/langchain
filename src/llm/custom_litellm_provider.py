@@ -16,7 +16,7 @@ class CustomLLM(LLM):
             "Question:\n{question}\n\n"
             "Answer:"
         )
-        self.client = Client(timeout=600.0)
+        self.client = Client(timeout=120.0)
 
     def call(self, inputs, **kwargs) -> str:
         logger.info(f"Received inputs: {inputs}, type: {type(inputs)}")
@@ -42,7 +42,6 @@ class CustomLLM(LLM):
 
         prompt_template = inputs.get("prompt_template", self.default_prompt_template)
 
-        # Формируем промпт
         prompt = prompt_template.format(
             context=inputs.get("context", ""),
             question=inputs.get("question", "")
@@ -66,6 +65,10 @@ class CustomLLM(LLM):
             answer = answer.strip()
             logger.info(f"Extracted answer: {answer}")
             return answer
+
+        except TimeoutError as e:
+            logger.error(f"Error calling endpoint: {e}", exc_info=True)
+            # raise
 
         except Exception as e:
             logger.error(f"Error calling endpoint: {e}", exc_info=True)
