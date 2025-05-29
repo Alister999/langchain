@@ -1,13 +1,12 @@
 import os
-
 import logging
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
-import faiss
+
 
 logger = logging.getLogger("FaissLogger")
-embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
+embedding_model = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 
 texts = [
     "Пиво: Хеникен 4 бутылки 0.5л холодильник - Beer: Heineken 4 bottle 0.5l refrigerator",

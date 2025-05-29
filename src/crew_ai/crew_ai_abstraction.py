@@ -1,6 +1,7 @@
+"""Module of CrewAI abstraction"""
 from crewai import Agent, Crew, Task
 
-from src.core.prompt_config import bar_prompt, joke_prompt
+from src.core.prompt_config import BAR_PROMPT
 from src.llm.custom_litellm_provider import CustomLLM
 
 
@@ -20,7 +21,7 @@ task = Task(
         "Question: {request}"
     ),
     agent=llm_agent,
-    prompt_template= bar_prompt, #joke_prompt,
+    prompt_template= BAR_PROMPT, #joke_prompt,
     expected_output="A concise and accurate answer based strictly on the provided context.",
 )
 
@@ -29,6 +30,3 @@ crew = Crew(
     tasks=[task],
     verbose=True,
 )
-
-
-
