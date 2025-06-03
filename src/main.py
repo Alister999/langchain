@@ -5,6 +5,7 @@ from http.client import HTTPException
 
 from src.core.faiss_db import save_embedding, get_embedding
 from src.core.logger_core import setup_logging
+from src.core.mivinus_db import write_data, get_data
 from src.crew_ai.crew_ai_abstraction import crew
 
 setup_logging()
@@ -22,7 +23,7 @@ def main():
             print("👋 Bye!")
             break
         try:
-            context = get_embedding(input=user_input)
+            context = get_data(query_text=user_input) #get_embedding(input=user_input)
 
             logger.warning("Users input - %s", user_input)
             logger.warning("Users context - %s", context)
@@ -49,7 +50,8 @@ def main():
             raise
 
 if __name__ == "__main__":
-    save_embedding()
+    # save_embedding()
+    write_data()
     main()
 
 logger.info("Finish of program")

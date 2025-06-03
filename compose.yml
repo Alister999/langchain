@@ -1,0 +1,44 @@
+services:
+  api_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      db_host:
+        condition: service_healthy
+    volumes:
+      - .:/src
+    networks:
+      - internal_network
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+
+  db_host:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U Alister -d db_host" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - internal_network
+
+volumes:
+  postgres_data:
+  postgres_test_data:
+
+networks:
+  internal_network:
+    driver: bridge
